@@ -22,9 +22,12 @@ gender-canada-elections/
 ├── data/
 │   ├── canada_2025_candidates.jsonl      # Official candidate list (1,562 candidates)
 │   ├── canadian_election_2025_posts.jsonl # 193,620 social media posts
-│   └── embedding_state.json              # Aggregated embeddings per candidate
+│   ├── embedding_state.json              # Aggregated embeddings per candidate
+│   ├── user_properties.json              # Candidate metadata (gender, type)
+│   └── sentiment_post_scores.csv         # Pre-computed sentiment & gender-axis scores (191,886 posts)
 │
-├── gender-analysis.ipynb                 # Main analysis notebook (all figures)
+├── gender-analysis.ipynb                 # Main analysis notebook (Figures 1–5)
+├── sentiment_analysis.ipynb              # Sentiment & gender-axis analysis (Figures 6–10)
 ├── bck/                                  # Backup/draft versions of analysis
 ├── requirements.txt                      # Python dependencies
 ├── ICWSM_GENDER_cl.pdf                   # Paper (camera-ready)
@@ -54,9 +57,13 @@ The dataset covers a 95-day window from February 23 to May 28, 2025, including t
 
 **Embedding state:** Aggregated post embeddings per candidate (`sum` + `count`) using the multilingual sentence-transformer `paraphrase-multilingual-MiniLM-L12-v2`.
 
+**Sentiment post scores:** Pre-computed per-post gender-axis projection scores and sentiment labels (derived from Elasticsearch). This file allows reproducing sentiment analyses without access to the original Elasticsearch instance.
+
 ## Analyses
 
-The notebook `gender-analysis.ipynb` reproduces all figures and analyses from the paper:
+Two notebooks reproduce all figures and analyses from the paper:
+
+### `gender-analysis.ipynb` — Descriptive & Topic Analysis
 
 | Figure | Description |
 |--------|-------------|
@@ -66,10 +73,15 @@ The notebook `gender-analysis.ipynb` reproduces all figures and analyses from th
 | Fig. 4 | Temporal posting dynamics by gender and party (7-day rolling avg) |
 | Fig. 5 | Thematic divergence by gender (per-candidate normalized topic shares) |
 | Fig. 6 | Distributions of alignment scores on the gender axis |
-| Fig. 7 | Sentiment distribution across gender axis quartiles |
-| Fig. 8 | Candidate-level gender axis alignment vs. mean sentiment |
 | Fig. 9 | Gendered linguistic styles across political parties (violin plots) |
 | Fig. 10 | Temporal trajectories of topic-level alignment on the gender axis |
+
+### `sentiment_analysis.ipynb` — Sentiment & Gender Axis
+
+| Figure | Description |
+|--------|-------------|
+| Fig. 7 | Sentiment distribution across gender axis quartiles |
+| Fig. 8 | Candidate-level gender axis alignment vs. mean sentiment |
 
 ### Methods
 
@@ -83,7 +95,10 @@ The notebook `gender-analysis.ipynb` reproduces all figures and analyses from th
 ```bash
 pip install -r requirements.txt
 jupyter notebook gender-analysis.ipynb
+jupyter notebook sentiment_analysis.ipynb
 ```
+
+> `sentiment_analysis.ipynb` loads pre-computed scores from `data/sentiment_post_scores.csv` — no Elasticsearch access required.
 
 ## Reproducibility
 
@@ -111,4 +126,4 @@ If you use this code or data, please cite:
 
 ## License
 
-Copyright 2026, Association for the Advancement of Artificial Intelligence (www.aaai.org). All rights reserved.
+This project is licensed under a Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0) license.

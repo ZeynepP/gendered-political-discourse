@@ -4,6 +4,6 @@ __pycache__/
 .ipynb_checkpoints/
 bck/
 *.png
+!images/*.png
 .idea/
 .DS_Store
-.claude/
